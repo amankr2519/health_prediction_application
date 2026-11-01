@@ -52,6 +52,10 @@ def update_patient(patient_id: str, patient: PatientUpdate) -> dict:
     changes = patient.model_dump(exclude_unset=True, mode="python")
     if not changes:
         return get_patient(patient_id)
+    # Keep the persisted format consistent with create_patient. PyMongo's BSON
+    # encoder does not support datetime.date directly.
+    if changes.get("date_of_birth") is not None:
+        changes["date_of_birth"] = changes["date_of_birth"].isoformat()
     changes["updated_at"] = datetime.now(timezone.utc)
     result = patients_collection().update_one({"_id": parse_object_id(patient_id)}, {"$set": changes})
     if result.matched_count == 0:

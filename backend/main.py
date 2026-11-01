@@ -92,6 +92,7 @@ def update_patient_route(patient_id: str, patient: PatientUpdate):
     except ValueError as exc:
         raise HTTPException(status_code=400, detail="Invalid patient ID") from exc
     except Exception as exc:
+        logger.exception("Patient update failed (%s)", type(exc).__name__)
         raise HTTPException(status_code=503, detail="Could not update patient record") from exc
 
 

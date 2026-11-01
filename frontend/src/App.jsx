@@ -227,14 +227,18 @@ function PatientModal({ patient, onClose, onSave }) {
               />
             </label>
             <label className="field">
-              <span>Date of birth</span>
+              <span>
+                Date of birth <small>DD/MM/YYYY</small>
+              </span>
               <input
-                type="date"
+                type="text"
                 name="date_of_birth"
                 value={form.date_of_birth}
                 onChange={updateField}
+                placeholder="e.g. 28/01/1960"
+                inputMode="numeric"
+                autoComplete="bday"
                 required
-                max={new Date().toISOString().slice(0, 10)}
               />
             </label>
             <label className="field">
